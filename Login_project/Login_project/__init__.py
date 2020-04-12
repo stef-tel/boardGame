@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from datetime import timedelta
 
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
@@ -13,9 +14,21 @@ def create_app():
 
     db.init_app(app)
 
+
+    delta = timedelta(
+        days=0,
+        seconds=0,
+        microseconds=0,
+        milliseconds=0,
+        minutes=5,
+        hours=0,
+        weeks=0
+        )
+
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
+    login_manager.remember_cookie_durarion = delta
 
     from .models import User
 
@@ -31,5 +44,8 @@ def create_app():
     # blueprint for non-auth parts of app
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    
+
 
     return app

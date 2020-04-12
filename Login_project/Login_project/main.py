@@ -22,10 +22,12 @@ def users():
 
     # Declare your table
     class ItemTable(Table):
-        id = Col('id')
+        classes = ['table','is-bordered','is-striped','is-narrow','is-hoverable','is-fullwidth']
+        id = Col('DB id')
         email = Col('email')
         name = Col('name')
         is_active = Col('status')
+        is_authenticated = Col('status 2')
 
     table = ItemTable(userList)
     return render_template('users.html', userTable=table)
