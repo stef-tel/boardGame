@@ -3,8 +3,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required
 from .models import User
 from . import db
+from datetime import timedelta
 
 auth = Blueprint('auth', __name__)
+
+
 
 @auth.route('/login')
 def login():
@@ -15,6 +18,15 @@ def login_post():
     email = request.form.get('email')
     password = request.form.get('password')
     remember = True if request.form.get('remember') else False
+    delta = timedelta(
+        days=0,
+        seconds=0,
+        microseconds=0,
+        milliseconds=0,
+        minutes=5,
+        hours=0,
+        weeks=0
+        )
 
     user = User.query.filter_by(email=email).first()
 
@@ -24,7 +36,7 @@ def login_post():
         flash('Please check your login details and try again.')
         return redirect(url_for('auth.login')) # if user doesn't exist or password is wrong, reload the page
         
-    login_user(user, remember=remember)
+    login_user(user, remember=remember, duration=delta,)
     # if the above check passes, then we know the user has the right credentials
     return redirect(url_for('main.profile'))
 

@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Flask Auth Example</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <link rel="stylesheet" href="/static/css/boardgame.css" />
 </head>
 
 <body>
@@ -46,6 +47,11 @@
                                 Who's connected ?
                             </a>
                             {% endif %}
+                            {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('gaming.play') }}" class="navbar-item">
+                                Let's play new game
+                            </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -59,6 +65,10 @@
             </div>
         </div>
     </section>
+
+    {% block scripts %}
+    {% endblock %}
+
 </body>
 
 </html>
