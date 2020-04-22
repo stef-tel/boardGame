@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required
 from .models import User
@@ -35,10 +35,15 @@ def login_post():
     if not user or not check_password_hash(user.password, password):
         flash('Please check your login details and try again.')
         return redirect(url_for('auth.login')) # if user doesn't exist or password is wrong, reload the page
-        
-    login_user(user, remember=remember, duration=delta,)
+
     # if the above check passes, then we know the user has the right credentials
-    return redirect(url_for('main.profile'))
+    #login_user(user, remember=remember, duration=delta)
+    login_user(user, remember=False)
+
+    #and we set up global session variable 
+    session['room'] = 'general_room'
+
+    return redirect(url_for('main.profile', fromPage = "login"))
 
 @auth.route('/signup')
 def signup():

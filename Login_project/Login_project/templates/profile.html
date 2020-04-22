@@ -5,3 +5,7 @@
   Welcome, {{ name }}!
 </h1>
 {% endblock %}
+{% block scripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
+  <script src="/static/js/boardgame-socket.js"></script>
+{% endblock scripts %}

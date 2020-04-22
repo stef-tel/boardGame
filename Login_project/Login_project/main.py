@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, session
 from flask_login import login_required, current_user
 from flask_table import Table, Col
 from . import db
@@ -30,5 +30,5 @@ def users():
         is_authenticated = Col('status 2')
 
     table = ItemTable(userList)
-    return render_template('users.html', userTable=table)
+    return render_template('users.html', userTable=table, room='general_room', name=current_user.name)
     
