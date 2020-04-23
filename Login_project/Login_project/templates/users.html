@@ -3,7 +3,7 @@
 {% block content %}
 
 
-  <div class="columns" style="height: 100%; margin-top: 0; margin-bottom: 0;">
+<!--   <div class="columns" style="height: 100%; margin-top: 0; margin-bottom: 0;">
     <div class="column is-half" >
       
         {{ userTable }}
@@ -12,7 +12,44 @@
         <div id='parent' class="column is-half" style="overflow: auto; max-height: 500px;">
           <input class="input" type="text" id="text" size="80" placeholder="Enter your message here"><br><br>
         </div>
+  </div> -->
+
+  <!-- first columns -->
+
+<div class="columns" style="height: 100%; margin-top: 0; margin-bottom: 0;">
+ 
+      <div class="column is-half">
+        List of user
+        <br>
+        <br>  
+        {{ userTable }}
+      </div>
+
+  <div id='parent' class="column is-half" style="overflow: auto; max-height: 400px;">
+    Global chat room
+    <br>
+    <br> 
+      
   </div>
+
+</div>
+
+<!-- third columns -->
+
+<div class="columns">
+
+  <div class="column is-half">
+  </div>
+
+  <div class="column is-half">
+    <br>
+    <br> 
+      <input class="input" type="text" id="text" size="80" placeholder="Enter your message here">
+      <br>
+      <br>
+  </div>
+
+</div>
 
 
 {% endblock %}
@@ -23,5 +60,5 @@
   <script type="text/javascript">
     var username = '{{ name }}';
   </script>
-  <script src="/static/js/globalChat.js"></script>
+  <script src="/static/js/globalChat.js" charset="utf-8"></script>
 {% endblock scripts %}
