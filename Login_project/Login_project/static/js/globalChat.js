@@ -66,17 +66,17 @@ function addChat(message, sender) {
     var New1;
     var New2;
 
-    if (username == sender) { 
+    if (username !== sender) { 
         New1 = addElement("", sender, "", "columns is-multiline");
         New2 = addElement("", sender, "", "column is-two-thirds", New1);
-        addElement(message, sender, "text-align: left;", "notification is-info", New2);
+        addElement('<i><sup>' + sender + '</i></sup></br>' + message, sender, "text-align: left;", "notification is-info", New2);
         addElement("", sender, "", "column", New1);
     }
     else{
         New1 = addElement("", sender, "", "columns is-multiline");
         addElement("", sender, "", "column", New1);
         New2 = addElement("", sender, "", "column is-two-thirds", New1);
-        addElement('<i><sup>' + sender + '</i></sup></br>' + message, sender, "text-align: right;", "notification is-warning", New2);
+        addElement(message, sender, "text-align: right;", "notification is-warning", New2);
     }
 
 }
