@@ -26,9 +26,11 @@ def users():
         id = Col('DB id')
         email = Col('email')
         name = Col('name')
-        is_active = Col('status')
-        is_authenticated = Col('status 2')
+        lastActivity = Col('Last know activity')
+        connectionStatus = Col('status')
 
     table = ItemTable(userList)
+
+
     return render_template('users.html', userTable=table, room='general_room', name=current_user.name)
     

@@ -4,12 +4,45 @@ from . import db
 from .models import User, Connection
 from flask_socketio import emit, join_room, leave_room
 from . import socketio
-from datetime import datetime
+from datetime import datetime, timedelta
 
 events = Blueprint('events', __name__)
 
-#@socketio.on('connect', namespace='/test')
-@socketio.on('connect')
+@socketio.on('connect', namespace='/connectStatus')
+def logeventComingUser():
+    #update number of connection as new activity detected (refresh page or open new tab or visit new page)
+    now = datetime.now()
+    if current_user.is_authenticated:
+        user = User.query.filter_by(name=current_user.name).first() # if this returns a user, then the email already exists in database
+        if user:
+            user.lastActivity = now
+            if user.numberConnection == None or (now > (user.lastActivity  + timedelta(hours=2))):
+                user.numberConnection = 1
+            else:
+                user.numberConnection += 1
+            db.session.commit()
+            print(current_user.name + ' came on boardGame and is tracked')
+        else:
+            print('can not retrieve connected user in DB while connecting, strange...')
+    else:
+        print('anonymous came on boardGame')
+
+@socketio.on('disconnect', namespace='/connectStatus')
+def test_disconnect():
+    now = datetime.now()
+    if current_user.is_authenticated:
+        user = User.query.filter_by(name=current_user.name).first() # if this returns a user, then the email already exists in database
+        if user:
+            user.lastDisconnect = now
+            user.numberConnection -= 1
+            db.session.commit()
+            print(current_user.name + ' left boardGame and is tracked')
+        else:
+            print('can not retrieve connected user in DB while disconnecting, strange...')
+    else:
+        print('anonymous left boardGame')
+
+@socketio.on('connect',namespace='/test')
 def login_connect():
     if current_user.is_authenticated:
         #update connection history
@@ -28,6 +61,8 @@ def login_connect():
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
     print('Client disconnected')
+
+
 
 
 @socketio.on('joined', namespace='/globalChat')

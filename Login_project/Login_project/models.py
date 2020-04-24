@@ -3,6 +3,8 @@ from flask_login import UserMixin
 from sqlalchemy import Integer, ForeignKey, String, Column
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship 
+from sqlalchemy.ext.hybrid import hybrid_property
+
 
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
@@ -10,6 +12,21 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
+    numberConnection = db.Column(db.Integer)
+    lastActivity = db.Column(db.DateTime)
+    lastDisconnect = db.Column(db.DateTime)
+
+    @hybrid_property
+    def connectionStatus(self):
+        if self.numberConnection != None :
+            if self.numberConnection > 0 :
+                status = "Connected" 
+            else :
+                status = "Disconnected"
+        else:
+           status = "Disconnected" 
+        return status
+        
 
     def __repr__(self):
         return '<User %r>' % self.username

@@ -5,7 +5,9 @@ var idElementCounter = 1;
 var newElementId;
 
 
-$(document).ready(function() {
+//$(document).ready(function() {
+//replacing JQuery by vanilla javascript
+document.addEventListener("DOMContentLoaded", function() {
     //socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
     socket = io.connect('http://127.0.0.1:5000/globalChat');
     socket.on('connect', function() {
